@@ -3,7 +3,7 @@ import Button from "../../button/Button";
 
 const CartPage = () => {
   return (
-    <div>
+    <div data-testid="CartPage">
       <h2>Your Cart</h2>
       <ItemContainer />
       <p>Subtotal</p>

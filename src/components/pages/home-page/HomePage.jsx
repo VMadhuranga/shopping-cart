@@ -9,7 +9,7 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <div data-testid="HomePage">
       <h2>Calling all fashion lovers</h2>
       <Button text={"Shop Now"} handleClick={navigateToProducts} />
     </div>
