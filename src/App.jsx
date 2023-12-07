@@ -1,7 +1,10 @@
 import { Outlet } from "react-router-dom";
 import NavigationBar from "./components/navigation-bar/NavigationBar";
+import useFetchStoreData from "./utils/store-data";
 
 const App = () => {
+  const { data, error, loading } = useFetchStoreData();
+
   return (
     <>
       <header>
@@ -9,7 +12,7 @@ const App = () => {
         <NavigationBar />
       </header>
       <main>
-        <Outlet />
+        <Outlet context={{ data, error, loading }} />
       </main>
       <footer>&copy; 2023 VMadhuranga</footer>
     </>
