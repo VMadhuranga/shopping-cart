@@ -78,3 +78,113 @@ describe("Test data fetching", () => {
     expect(screen.getByTestId("ItemContainer")).toBeInTheDocument();
   });
 });
+
+describe.only("Test page functionality", () => {
+  it("Add first item to the cart when Add to cart button clicked", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    await user.click(addToCartButtons.at(0));
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+
+    expect(screen.getByRole("img", { name: "T-Shirt 1" })).toBeInTheDocument();
+    expect(screen.getByText("T-Shirt 1")).toBeInTheDocument();
+    expect(screen.getByText("$10")).toBeInTheDocument();
+    expect(screen.getByText(/Sub Total/i)).toBeInTheDocument();
+    expect(screen.getByRole("spinbutton")).toBeInTheDocument();
+    expect(Number(screen.getByRole("spinbutton").value)).toBe(1);
+    expect(screen.getByRole("button", { name: "+" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "-" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "x" })).toBeInTheDocument();
+  });
+
+  it("Add second item to the cart when Add to cart button clicked", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    await user.click(addToCartButtons.at(1));
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+
+    expect(screen.getByRole("img", { name: "T-Shirt 2" })).toBeInTheDocument();
+    expect(screen.getByText("T-Shirt 2")).toBeInTheDocument();
+    expect(screen.getByText("$15")).toBeInTheDocument();
+    expect(screen.getByText(/Sub Total/i)).toBeInTheDocument();
+    expect(screen.getByRole("spinbutton")).toBeInTheDocument();
+    expect(Number(screen.getByRole("spinbutton").value)).toBe(1);
+    expect(screen.getByRole("button", { name: "+" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "-" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "x" })).toBeInTheDocument();
+  });
+
+  it("Add all items to the cart when all Add to cart button clicked", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    addToCartButtons.forEach(async (button) => {
+      await user.click(button);
+    });
+
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+
+    expect(screen.getByTestId("CartItemContainer")).toBeInTheDocument();
+  });
+
+  it("If same item add again to cart increment the item quantity", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    await user.click(addToCartButtons.at(0));
+    await user.click(addToCartButtons.at(0));
+    await user.click(addToCartButtons.at(0));
+
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+    const itemQuantity = Number(screen.getByRole("spinbutton").value);
+
+    expect(itemQuantity).toBe(3);
+  });
+
+  it("If same item add again to cart update the item sub total", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    // Item 1's price is 10
+    await user.click(addToCartButtons.at(0));
+    await user.click(addToCartButtons.at(0));
+    await user.click(addToCartButtons.at(0));
+
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+    const itemSubTotal = Number(
+      screen
+        .getByText(/Sub Total/i)
+        .textContent.match(/\d/g)
+        .join(""),
+    );
+
+    expect(itemSubTotal).toBe(30);
+  });
+});
