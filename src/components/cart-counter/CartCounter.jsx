@@ -1,5 +1,11 @@
-const CartCounter = () => {
-  return <span>0</span>;
+import PropTypes from "prop-types";
+
+const CartCounter = ({ count }) => {
+  return <span data-testid={"CartCounter"}>{count}</span>;
+};
+
+CartCounter.propTypes = {
+  count: PropTypes.number,
 };
 
 export default CartCounter;
