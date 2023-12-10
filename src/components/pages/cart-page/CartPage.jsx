@@ -45,6 +45,13 @@ const CartPage = () => {
     setCartData(updatedCartData);
   }
 
+  function handleRemoveItem(e) {
+    const itemId = Number(e.target.parentElement.dataset.itemId);
+    const updatedCartData = cartData.filter((data) => data.id !== itemId);
+
+    setCartData(updatedCartData);
+  }
+
   return (
     <div data-testid="CartPage">
       <h2>Your Cart</h2>
@@ -76,7 +83,7 @@ const CartPage = () => {
                       text={"-"}
                       handleClick={handleIncrementAndDecrement}
                     />
-                    <Button text={"x"} />
+                    <Button text={"x"} handleClick={handleRemoveItem} />
                   </>
                 }
               />
