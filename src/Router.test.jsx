@@ -187,4 +187,22 @@ describe.only("Test page functionality", () => {
 
     expect(itemSubTotal).toBe(30);
   });
+
+  it("Update cart count when new item added to cart or item quantity increases", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    await user.click(addToCartButtons.at(0));
+    await user.click(addToCartButtons.at(0));
+    await user.click(addToCartButtons.at(0));
+
+    const cartCount = Number(screen.getByTestId("CartCounter").textContent);
+
+    expect(cartCount).toBe(3);
+  });
 });
