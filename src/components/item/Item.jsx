@@ -14,7 +14,7 @@ const Item = ({
       <p>{itemName}</p>
       <p>${itemPrice}</p>
       {optionalElements}
-      {subTotalPrice && <p>Sub Total ${subTotalPrice}</p>}
+      {subTotalPrice > 0 && <p>Sub Total ${subTotalPrice}</p>}
     </div>
   );
 };
