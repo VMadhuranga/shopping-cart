@@ -205,4 +205,27 @@ describe.only("Test page functionality", () => {
 
     expect(cartCount).toBe(3);
   });
+
+  it("Update value in input field when manually input value", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    await user.click(addToCartButtons.at(0));
+
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+
+    await user.click(screen.getByRole("spinbutton"));
+    await user.clear(screen.getByRole("spinbutton"));
+    await user.keyboard("33");
+
+    const itemQuantity = Number(screen.getByRole("spinbutton").value);
+
+    console.log(itemQuantity);
+    expect(itemQuantity).toBe(33);
+  });
 });
