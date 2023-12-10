@@ -275,4 +275,22 @@ describe.only("Test page functionality", () => {
 
     expect(itemQuantity).toBe(1);
   });
+
+  it("Remove corresponding cart item from cart when x button clicked", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    await user.click(addToCartButtons.at(0));
+
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+
+    await user.click(screen.getByRole("button", { name: "x" }));
+
+    expect(screen.getByText(/your cart is empty/i)).toBeInTheDocument();
+  });
 });
