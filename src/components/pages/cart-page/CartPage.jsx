@@ -21,6 +21,30 @@ const CartPage = () => {
     setCartData(updatedCartData);
   }
 
+  function handleIncrementAndDecrement(e) {
+    const itemId = Number(e.target.parentElement.dataset.itemId);
+
+    const updatedCartData = cartData.map((data) => {
+      if (data.id === itemId && e.target.textContent === "+") {
+        data.itemQuantity += 1;
+        data.subTotalPrice =
+          Math.round(data.itemQuantity * data.price * 100) / 100;
+      } else if (
+        data.id === itemId &&
+        e.target.textContent === "-" &&
+        data.itemQuantity > 1
+      ) {
+        data.itemQuantity -= 1;
+        data.subTotalPrice =
+          Math.round(data.itemQuantity * data.price * 100) / 100;
+      }
+
+      return data;
+    });
+
+    setCartData(updatedCartData);
+  }
+
   return (
     <div data-testid="CartPage">
       <h2>Your Cart</h2>
@@ -44,8 +68,14 @@ const CartPage = () => {
                       min={1}
                       onChange={handleItemQuantityChange}
                     />
-                    <Button text={"+"} />
-                    <Button text={"-"} />
+                    <Button
+                      text={"+"}
+                      handleClick={handleIncrementAndDecrement}
+                    />
+                    <Button
+                      text={"-"}
+                      handleClick={handleIncrementAndDecrement}
+                    />
                     <Button text={"x"} />
                   </>
                 }
