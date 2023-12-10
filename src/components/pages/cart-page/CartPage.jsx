@@ -3,7 +3,23 @@ import Item from "../../item/Item";
 import { useOutletContext } from "react-router-dom";
 
 const CartPage = () => {
-  const { cartData } = useOutletContext();
+  const { cartData, setCartData } = useOutletContext();
+
+  function handleItemQuantityChange(e) {
+    const itemId = Number(e.target.parentElement.dataset.itemId);
+
+    const updatedCartData = cartData.map((data) => {
+      if (data.id === itemId) {
+        data.itemQuantity = Number(e.target.value);
+        data.subTotalPrice =
+          Math.round(data.itemQuantity * data.price * 100) / 100;
+      }
+
+      return data;
+    });
+
+    setCartData(updatedCartData);
+  }
 
   return (
     <div data-testid="CartPage">
@@ -14,6 +30,7 @@ const CartPage = () => {
             {cartData.map((data) => (
               <Item
                 key={data.id}
+                itemId={data.id}
                 imageUrl={data.image}
                 itemName={data.title}
                 itemPrice={data.price}
@@ -22,8 +39,10 @@ const CartPage = () => {
                   <>
                     <input
                       type="number"
-                      value={data.itemQuantity}
+                      value={data.itemQuantity > 0 ? data.itemQuantity : ""}
                       name="quantity"
+                      min={1}
+                      onChange={handleItemQuantityChange}
                     />
                     <Button text={"+"} />
                     <Button text={"-"} />
