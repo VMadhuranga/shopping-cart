@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
+import styles from "./CartCounter.module.css";
 
 const CartCounter = ({ count }) => {
-  return <span data-testid={"CartCounter"}>{count}</span>;
+  return (
+    <span className={styles.counter} data-testid={"CartCounter"}>
+      {count}
+    </span>
+  );
 };
 
 CartCounter.propTypes = {
