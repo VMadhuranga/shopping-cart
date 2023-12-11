@@ -1,0 +1,10 @@
+.counter {
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 2px 5px 1px;
+  border-radius: 10px;
+  background-color: red;
+  position: absolute;
+  top: -8px;
+  left: 38px;
+}
