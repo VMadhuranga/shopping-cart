@@ -1,7 +1,8 @@
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetchStoreData from "./utils/store-data";
 import CartCounter from "./components/cart-counter/CartCounter";
+import styles from "./App.module.css";
 
 const App = () => {
   const [cartData, setCartData] = useState([]);
@@ -19,13 +20,34 @@ const App = () => {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? `${styles.active}` : ""
+                }
+              >
+                Home
+              </NavLink>
             </li>
             <li>
-              <Link to="products">Products</Link>
+              <NavLink
+                to="products"
+                className={({ isActive }) =>
+                  isActive ? `${styles.active}` : ""
+                }
+              >
+                Products
+              </NavLink>
             </li>
             <li>
-              <Link to="cart">Cart</Link>
+              <NavLink
+                to="cart"
+                className={({ isActive }) =>
+                  isActive ? `${styles.active}` : ""
+                }
+              >
+                Cart
+              </NavLink>
               <CartCounter count={cartCount} />
             </li>
           </ul>
