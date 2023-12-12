@@ -12,6 +12,6 @@ body {
 
 #root {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: max-content minmax(500px, 1fr) max-content;
 }
