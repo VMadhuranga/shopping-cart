@@ -1,0 +1,15 @@
+.productsPage {
+  padding: 40px;
+}
+
+.productsPage h2 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.itemContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
