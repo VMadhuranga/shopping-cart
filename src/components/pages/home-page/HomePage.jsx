@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../button/Button";
 import styles from "./HomePage.module.css";
 import { pageTransition } from "../../../App.module.css";
+import { primary } from "../../button/Button.module.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -22,7 +23,11 @@ const HomePage = () => {
           explicabo fugiat numquam dignissimos accusamus quasi ipsa rem nam
           minima unde.
         </p>
-        <Button text={"Shop Now"} handleClick={navigateToProducts} />
+        <Button
+          className={primary}
+          text={"Shop Now"}
+          handleClick={navigateToProducts}
+        />
       </div>
       <img src="./src/assets/images/home-page-bg.jpg" alt="store front" />
     </div>
