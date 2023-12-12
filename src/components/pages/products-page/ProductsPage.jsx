@@ -1,6 +1,9 @@
 import { useOutletContext } from "react-router-dom";
 import Item from "../../item/Item";
 import Button from "../../button/Button";
+import styles from "./ProductsPage.module.css";
+import { pageTransition } from "../../../App.module.css";
+import { primary } from "../../button/Button.module.css";
 
 const ProductsPage = () => {
   const {
@@ -48,12 +51,15 @@ const ProductsPage = () => {
   }
 
   return (
-    <div data-testid={"ProductsPage"}>
-      <h2>Product</h2>
+    <div
+      className={`${styles.productsPage} ${pageTransition}`}
+      data-testid={"ProductsPage"}
+    >
+      <h2>Shop our latest products</h2>
       {loading && <p>Loading</p>}
       {error && <p>Something went wrong</p>}
       {productsData && (
-        <div data-testid="ItemContainer">
+        <div className={styles.itemContainer} data-testid="ItemContainer">
           {productsData.map((product) => (
             <Item
               key={product.id}
@@ -62,7 +68,11 @@ const ProductsPage = () => {
               itemName={product.title}
               itemPrice={product.price}
               optionalElements={
-                <Button text={"Add to cart"} handleClick={handleAddToCart} />
+                <Button
+                  className={primary}
+                  text={"Add to cart"}
+                  handleClick={handleAddToCart}
+                />
               }
             />
           ))}
