@@ -56,8 +56,8 @@ const ProductsPage = () => {
       data-testid={"ProductsPage"}
     >
       <h2>Shop our latest products</h2>
-      {loading && <p>Loading</p>}
-      {error && <p>Something went wrong</p>}
+      {loading && <p className={styles.pending}>Loading</p>}
+      {error && <p className={styles.pending}>Something went wrong</p>}
       {productsData && (
         <div className={styles.itemContainer} data-testid="ItemContainer">
           {productsData.map((product) => (
