@@ -3,6 +3,7 @@ import Button from "../../button/Button";
 import styles from "./HomePage.module.css";
 import { pageTransition } from "../../../App.module.css";
 import { primary } from "../../button/Button.module.css";
+import homePageBGImage from "../../../assets/images/home-page-bg.jpg";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const HomePage = () => {
           handleClick={navigateToProducts}
         />
       </div>
-      <img src="./src/assets/images/home-page-bg.jpg" alt="store front" />
+      <img src={homePageBGImage} alt="store front" />
     </div>
   );
 };
