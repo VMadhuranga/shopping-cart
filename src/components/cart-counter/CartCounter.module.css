@@ -1,10 +1,15 @@
 .counter {
+  min-width: 21px;
+  height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 0.9rem;
   font-weight: bold;
-  padding: 2px 5px 1px;
-  border-radius: 10px;
+  padding: 0 5px;
+  border-radius: 50px;
   background-color: red;
   position: absolute;
-  top: -8px;
-  left: 38px;
+  top: -12px;
+  left: 35px;
 }
