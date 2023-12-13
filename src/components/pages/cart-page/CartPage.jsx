@@ -1,12 +1,17 @@
 import Button from "../../button/Button";
 import Item from "../../item/Item";
 import { useOutletContext } from "react-router-dom";
+import styles from "./CartPage.module.css";
+import { cartItem } from "../../item/Item.module.css";
+import { pageTransition } from "../../../App.module.css";
+import { remove, spinner } from "../../button/Button.module.css";
+import { pending } from "../../pages/products-page/ProductsPage.module.css";
 
 const CartPage = () => {
   const { cartData, setCartData } = useOutletContext();
 
   function handleItemQuantityChange(e) {
-    const itemId = Number(e.target.parentElement.dataset.itemId);
+    const itemId = Number(e.target.parentElement.parentElement.dataset.itemId);
 
     const updatedCartData = cartData.map((data) => {
       if (data.id === itemId) {
@@ -22,16 +27,16 @@ const CartPage = () => {
   }
 
   function handleIncrementAndDecrement(e) {
-    const itemId = Number(e.target.parentElement.dataset.itemId);
+    const itemId = Number(e.target.parentElement.parentElement.dataset.itemId);
 
     const updatedCartData = cartData.map((data) => {
-      if (data.id === itemId && e.target.textContent === "+") {
+      if (data.id === itemId && e.target.textContent === "\uFF0B") {
         data.itemQuantity += 1;
         data.subTotalPrice =
           Math.round(data.itemQuantity * data.price * 100) / 100;
       } else if (
         data.id === itemId &&
-        e.target.textContent === "-" &&
+        e.target.textContent === "\uFF0D" &&
         data.itemQuantity > 1
       ) {
         data.itemQuantity -= 1;
@@ -53,11 +58,17 @@ const CartPage = () => {
   }
 
   return (
-    <div data-testid="CartPage">
+    <div
+      className={`${styles.cartPage} ${pageTransition}`}
+      data-testid="CartPage"
+    >
       <h2>Your Cart</h2>
       {cartData.length > 0 ? (
         <>
-          <div data-testid="CartItemContainer">
+          <div
+            className={styles.cartItemContainer}
+            data-testid="CartItemContainer"
+          >
             {cartData.map((data) => (
               <Item
                 key={data.id}
@@ -66,24 +77,33 @@ const CartPage = () => {
                 itemName={data.title}
                 itemPrice={data.price}
                 subTotalPrice={data.subTotalPrice}
+                className={cartItem}
                 optionalElements={
                   <>
-                    <input
-                      type="number"
-                      value={data.itemQuantity > 0 ? data.itemQuantity : ""}
-                      name="quantity"
-                      min={1}
-                      onChange={handleItemQuantityChange}
-                    />
+                    <div>
+                      <Button
+                        className={spinner}
+                        text={"\uFF0B"}
+                        handleClick={handleIncrementAndDecrement}
+                      />
+                      <input
+                        type="number"
+                        value={data.itemQuantity > 0 ? data.itemQuantity : ""}
+                        name="quantity"
+                        min={1}
+                        onChange={handleItemQuantityChange}
+                      />
+                      <Button
+                        className={spinner}
+                        text={"\uFF0D"}
+                        handleClick={handleIncrementAndDecrement}
+                      />
+                    </div>
                     <Button
-                      text={"+"}
-                      handleClick={handleIncrementAndDecrement}
+                      className={remove}
+                      text={"\u2715"}
+                      handleClick={handleRemoveItem}
                     />
-                    <Button
-                      text={"-"}
-                      handleClick={handleIncrementAndDecrement}
-                    />
-                    <Button text={"x"} handleClick={handleRemoveItem} />
                   </>
                 }
               />
@@ -93,7 +113,7 @@ const CartPage = () => {
           <Button text={"Checkout"} />
         </>
       ) : (
-        <p>Your cart is empty</p>
+        <p className={pending}>Your cart is empty</p>
       )}
     </div>
   );
