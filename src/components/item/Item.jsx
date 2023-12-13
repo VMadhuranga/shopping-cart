@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import styles from "./Item.module.css";
 
 const Item = ({
   itemId,
@@ -8,9 +7,10 @@ const Item = ({
   itemPrice,
   subTotalPrice = null,
   optionalElements = null,
+  className,
 }) => {
   return (
-    <div className={styles.item} data-item-id={itemId}>
+    <div className={className} data-item-id={itemId}>
       <img src={imageUrl} alt={itemName} width={200} loading="lazy" />
       <p>{itemName}</p>
       <p>${itemPrice}</p>
@@ -27,6 +27,7 @@ Item.propTypes = {
   itemPrice: PropTypes.number,
   subTotalPrice: PropTypes.number,
   optionalElements: PropTypes.element,
+  className: PropTypes.string,
 };
 
 export default Item;
