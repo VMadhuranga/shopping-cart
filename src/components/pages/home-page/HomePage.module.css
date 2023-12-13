@@ -4,6 +4,7 @@
 }
 
 .homePage > div {
+  width: 50%;
   text-align: center;
   flex-grow: 1;
   padding: 40px;
@@ -33,6 +34,7 @@
   }
 
   .homePage > div {
+    width: 100%;
     padding: 20px;
   }
 
