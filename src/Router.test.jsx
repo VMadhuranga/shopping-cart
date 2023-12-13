@@ -79,7 +79,7 @@ describe("Test data fetching", () => {
   });
 });
 
-describe.only("Test page functionality", () => {
+describe("Test page functionality", () => {
   it("Add first item to the cart when Add to cart button clicked", async () => {
     mockUseFetchStoreData(mockStoreData, null, false);
 
@@ -98,9 +98,9 @@ describe.only("Test page functionality", () => {
     expect(screen.getByText(/Sub Total/i)).toBeInTheDocument();
     expect(screen.getByRole("spinbutton")).toBeInTheDocument();
     expect(Number(screen.getByRole("spinbutton").value)).toBe(1);
-    expect(screen.getByRole("button", { name: "+" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "-" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "x" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "\uFF0B" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "\uFF0D" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "\u2715" })).toBeInTheDocument();
   });
 
   it("Add second item to the cart when Add to cart button clicked", async () => {
@@ -121,9 +121,9 @@ describe.only("Test page functionality", () => {
     expect(screen.getByText(/Sub Total/i)).toBeInTheDocument();
     expect(screen.getByRole("spinbutton")).toBeInTheDocument();
     expect(Number(screen.getByRole("spinbutton").value)).toBe(1);
-    expect(screen.getByRole("button", { name: "+" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "-" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "x" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "\uFF0B" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "\uFF0D" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "\u2715" })).toBeInTheDocument();
   });
 
   it("Add all items to the cart when all Add to cart button clicked", async () => {
@@ -242,15 +242,15 @@ describe.only("Test page functionality", () => {
     await user.click(screen.getByRole("link", { name: "Cart" }));
 
     // Increment, Initial value is 1
-    await user.click(screen.getByRole("button", { name: "+" }));
-    await user.click(screen.getByRole("button", { name: "+" }));
+    await user.click(screen.getByRole("button", { name: "\uFF0B" }));
+    await user.click(screen.getByRole("button", { name: "\uFF0B" }));
 
     const itemQuantity = Number(screen.getByRole("spinbutton").value);
 
     expect(itemQuantity).toBe(3);
   });
 
-  it("Update value in input field when + button clicked", async () => {
+  it("Update value in input field when - button clicked", async () => {
     mockUseFetchStoreData(mockStoreData, null, false);
 
     const { user } = renderWithRouter(<Router />, { route: "products" });
@@ -264,12 +264,12 @@ describe.only("Test page functionality", () => {
     await user.click(screen.getByRole("link", { name: "Cart" }));
 
     // Increment, Initial value is 1
-    await user.click(screen.getByRole("button", { name: "+" }));
-    await user.click(screen.getByRole("button", { name: "+" }));
+    await user.click(screen.getByRole("button", { name: "\uFF0B" }));
+    await user.click(screen.getByRole("button", { name: "\uFF0B" }));
 
     // Decrement
-    await user.click(screen.getByRole("button", { name: "-" }));
-    await user.click(screen.getByRole("button", { name: "-" }));
+    await user.click(screen.getByRole("button", { name: "\uFF0D" }));
+    await user.click(screen.getByRole("button", { name: "\uFF0D" }));
 
     const itemQuantity = Number(screen.getByRole("spinbutton").value);
 
@@ -289,8 +289,34 @@ describe.only("Test page functionality", () => {
 
     await user.click(screen.getByRole("link", { name: "Cart" }));
 
-    await user.click(screen.getByRole("button", { name: "x" }));
+    await user.click(screen.getByRole("button", { name: "\u2715" }));
 
     expect(screen.getByText(/your cart is empty/i)).toBeInTheDocument();
+  });
+
+  it("Display total price of all the items in cart", async () => {
+    mockUseFetchStoreData(mockStoreData, null, false);
+
+    const { user } = renderWithRouter(<Router />, { route: "products" });
+
+    const addToCartButtons = screen.getAllByRole("button", {
+      name: "Add to cart",
+    });
+
+    // Add item 1, 2 and 3
+    await user.click(addToCartButtons.at(0)); // item 1 price 10
+    await user.click(addToCartButtons.at(1)); // item 2 price 15
+    await user.click(addToCartButtons.at(2)); // item 3 price 20
+
+    await user.click(screen.getByRole("link", { name: "Cart" }));
+
+    const totalPrice = Number(
+      screen
+        .getByText(/^Total/)
+        .textContent.match(/\d/g)
+        .join(""),
+    );
+
+    expect(totalPrice).toBe(45);
   });
 });
