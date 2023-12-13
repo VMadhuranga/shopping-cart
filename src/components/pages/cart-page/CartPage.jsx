@@ -57,6 +57,15 @@ const CartPage = () => {
     setCartData(updatedCartData);
   }
 
+  function calculateTotalPrice() {
+    const totalPrice = cartData.reduce(
+      (acc, data) => acc + data.subTotalPrice,
+      0,
+    );
+
+    return totalPrice;
+  }
+
   return (
     <div
       className={`${styles.cartPage} ${pageTransition}`}
@@ -109,7 +118,7 @@ const CartPage = () => {
               />
             ))}
           </div>
-          <p>Total</p>
+          <p>Total ${calculateTotalPrice()}</p>
           <Button text={"Checkout"} />
         </>
       ) : (
