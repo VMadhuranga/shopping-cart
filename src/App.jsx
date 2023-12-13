@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <header>
-        <h1>Shopping Cart</h1>
+        <h1>Fake Store</h1>
         <nav>
           <ul>
             <li>
