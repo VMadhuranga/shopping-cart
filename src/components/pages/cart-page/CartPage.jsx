@@ -4,7 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import styles from "./CartPage.module.css";
 import { cartItem } from "../../item/Item.module.css";
 import { pageTransition } from "../../../App.module.css";
-import { remove, spinner } from "../../button/Button.module.css";
+import { primary, remove, spinner } from "../../button/Button.module.css";
 import { pending } from "../../pages/products-page/ProductsPage.module.css";
 
 const CartPage = () => {
@@ -63,7 +63,7 @@ const CartPage = () => {
       0,
     );
 
-    return totalPrice;
+    return Math.round(totalPrice * 100) / 100;
   }
 
   return (
@@ -118,8 +118,15 @@ const CartPage = () => {
               />
             ))}
           </div>
-          <p>Total ${calculateTotalPrice()}</p>
-          <Button text={"Checkout"} />
+          <div className={styles.checkout}>
+            <p>
+              Total <span>${calculateTotalPrice()}</span>
+            </p>
+            <p>
+              <i>Shipping and taxes will be calculated at checkout.</i>
+            </p>
+            <Button className={primary} text={"Checkout"} />
+          </div>
         </>
       ) : (
         <p className={pending}>Your cart is empty</p>
