@@ -4,6 +4,7 @@ import Button from "../../button/Button";
 import styles from "./ProductsPage.module.css";
 import { pageTransition } from "../../../App.module.css";
 import { primary } from "../../button/Button.module.css";
+import { productItem } from "../../item/Item.module.css";
 
 const ProductsPage = () => {
   const {
@@ -67,6 +68,7 @@ const ProductsPage = () => {
               imageUrl={product.image}
               itemName={product.title}
               itemPrice={product.price}
+              className={productItem}
               optionalElements={
                 <Button
                   className={primary}
