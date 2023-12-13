@@ -94,8 +94,15 @@ describe("Test page functionality", () => {
 
     expect(screen.getByRole("img", { name: "T-Shirt 1" })).toBeInTheDocument();
     expect(screen.getByText("T-Shirt 1")).toBeInTheDocument();
-    expect(screen.getByText("$10")).toBeInTheDocument();
     expect(screen.getByText(/Sub Total/i)).toBeInTheDocument();
+    expect(
+      Number(
+        screen
+          .getByText(/Sub Total/i)
+          .textContent.match(/\d/g)
+          .join(""),
+      ),
+    ).toBe(10);
     expect(screen.getByRole("spinbutton")).toBeInTheDocument();
     expect(Number(screen.getByRole("spinbutton").value)).toBe(1);
     expect(screen.getByRole("button", { name: "\uFF0B" })).toBeInTheDocument();
@@ -117,8 +124,15 @@ describe("Test page functionality", () => {
 
     expect(screen.getByRole("img", { name: "T-Shirt 2" })).toBeInTheDocument();
     expect(screen.getByText("T-Shirt 2")).toBeInTheDocument();
-    expect(screen.getByText("$15")).toBeInTheDocument();
     expect(screen.getByText(/Sub Total/i)).toBeInTheDocument();
+    expect(
+      Number(
+        screen
+          .getByText(/Sub Total/i)
+          .textContent.match(/\d/g)
+          .join(""),
+      ),
+    ).toBe(15);
     expect(screen.getByRole("spinbutton")).toBeInTheDocument();
     expect(Number(screen.getByRole("spinbutton").value)).toBe(1);
     expect(screen.getByRole("button", { name: "\uFF0B" })).toBeInTheDocument();
